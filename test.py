@@ -1,6 +1,6 @@
 import socket
 import sys
-
+import time
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
@@ -16,14 +16,18 @@ while True:
     connection, client_address = sock.accept()
     try:
         print (sys.stderr, 'connection from', client_address)
-
+        #time.sleep(5)
         # Receive the data in small chunks and retransmit it
         while True:
-            data = connection.recv(16)
+            data = connection.recv(256)
             print (sys.stderr, 'received "%s"' % data)
             if data:
-                print (sys.stderr, 'sending data back to the client')
-                connection.sendall(data)
+                if data == b'1':
+                    print (sys.stderr, 'sending data back to the client')
+                    connection.sendall('OK'.encode('utf8'))
+                else:
+                    print(sys.stderr, 'sending data back to the client')
+                    connection.sendall(data+'Something else'.encode('utf8'))
             else:
                 print (sys.stderr, 'no more data from', client_address)
                 break
