@@ -20,13 +20,12 @@ class RobThreadClass(QtCore.QThread):
         self.rob = RobClient.Client('localhost', 10000)
 
     def run(self):
-        current_date = ''
         while 1:
-            #print(self.rob.request('1'), self.rob.connected)
-            #time.sleep(5)
             current_date = self.rob.request('Date')
-            print(current_date.decode('utf-8'))
-            self.date_signal.emit(current_date.decode('utf-8'))
+            if self.rob.connected:
+                print(current_date.decode('utf-8'))
+                self.date_signal.emit(current_date.decode('utf-8'))
+
             time.sleep(1)
 
 
