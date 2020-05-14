@@ -1,6 +1,9 @@
 import socket
 import sys
+
 import time
+import datetime
+
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
@@ -9,6 +12,8 @@ print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
+counter = 1
+now = datetime.datetime.now()
 
 while True:
     # Wait for a connection
@@ -18,16 +23,23 @@ while True:
         print (sys.stderr, 'connection from', client_address)
         #time.sleep(5)
         # Receive the data in small chunks and retransmit it
+        now = datetime.datetime.now()
+
         while True:
             data = connection.recv(256)
             print (sys.stderr, 'received "%s"' % data)
+            send_string = ''
             if data:
                 if data == b'1':
-                    print (sys.stderr, 'sending data back to the client')
-                    connection.sendall('OK'.encode('utf8'))
+                    send_string = 'OK'
+                elif data == b'Date':
+                    send_string = now.strftime("%d-%m-%Y %H:%M:%S")
+                elif data == 'Count':
+                    send_string = str(counter)
                 else:
-                    print(sys.stderr, 'sending data back to the client')
-                    connection.sendall(data+'Something else'.encode('utf8'))
+                    send_string = 'Something else'
+                print(sys.stderr, 'sending data back to the client')
+                connection.sendall(send_string.encode('utf8'))
             else:
                 print (sys.stderr, 'no more data from', client_address)
                 break

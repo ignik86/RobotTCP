@@ -20,6 +20,9 @@ class Ui_MainWindow(object):
         self.horizontalWidget.setObjectName("horizontalWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalWidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.time = QtWidgets.QLabel(self.horizontalWidget)
+        self.time.setObjectName("time")
+        self.horizontalLayout.addWidget(self.time)
         self.verticalLayout.addWidget(self.horizontalWidget)
         self.horizontalWidget1 = QtWidgets.QWidget(self.centralwidget)
         self.horizontalWidget1.setObjectName("horizontalWidget1")
@@ -41,6 +44,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.time.setText(_translate("MainWindow", "TextLabel"))
 
 
 if __name__ == "__main__":
