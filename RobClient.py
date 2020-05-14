@@ -13,7 +13,7 @@ class Client:
     def connect(self):
         # Connect the socket to the port where the server is listening
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print(sys.stderr, 'connecting to %s port %s' % self.server_address)
+        # print(sys.stderr, 'connecting to %s port %s' % self.server_address)
         self.sock.connect(self.server_address)
         self.connected = True
 
