@@ -9,6 +9,10 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 
+import XmlParser
+
+config_file = 'Config.xml'
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -20,7 +24,8 @@ class RobThreadClass(QtCore.QThread):
     def __init__(self):
 
         super(self.__class__, self).__init__()
-        self.rob = RobClient.Client('localhost', 10000)
+        config = XmlParser.ConfigParse(config_file)
+        self.rob = RobClient.Client(config.ip(),config.port())
 
     def run(self):
         while 1:
