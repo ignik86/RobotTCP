@@ -22,7 +22,7 @@ class Client:
             # Send data
             self.connect()
             self.sock.sendall(message.encode('utf8'))
-            data = self.sock.recv(32)
+            data = self.sock.recv(256)
             return data
         except OSError as e:
             self.connected = False
