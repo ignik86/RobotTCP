@@ -8,6 +8,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
+from PyQt5.QtGui import QPixmap
 
 import XmlParser
 
@@ -25,7 +26,7 @@ class RobThreadClass(QtCore.QThread):
 
         super(self.__class__, self).__init__()
         config = XmlParser.ConfigParse(config_file)
-        self.rob = RobClient.Client(config.ip(),config.port())
+        self.rob = RobClient.Client(config.ip(), config.port())
 
     def run(self):
         while 1:
@@ -56,6 +57,12 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
         self.robthread = RobThreadClass()
         self.robthread.start()
         self.robthread.date_signal.connect(self.showdate)
+
+        config = XmlParser.ConfigParse(config_file)
+        logopixmap = QPixmap(config.logopicture())
+        h = self.logo.height()
+        w = self.logo.width()
+        self.logo.setPixmap(logopixmap.scaled(w, h, QtCore.Qt.KeepAspectRatio))
 
 
 class MyMplCanvas(FigureCanvas):
@@ -144,6 +151,7 @@ class PlanCanvas(MyMplCanvas):
         self.plt.set_xlabel('Время')
         self.plt.set_ylabel('Количество ударов')
         self.plt.legend()
+
         self.autolabel(rect)
         self.draw()
 
