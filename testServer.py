@@ -12,8 +12,8 @@ print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
-counter = '0/034/123/134/234/123/456/123/560'
-shift = 1
+counter = '0/34/28/10/40/12/0/0/0'
+shift = 2
 plan = 200
 now = datetime.datetime.now()
 
@@ -33,9 +33,7 @@ while True:
             send_string = ''
 
             if data:
-                if data == b'1':
-                    send_string = 'OK'
-                elif data == b'Date':
+                if data == b'Date':
                     send_string = now.strftime("%d-%m-%Y %H:%M:%S")
                 elif data == b'Time':
                     send_string = now.strftime("%H:%M")

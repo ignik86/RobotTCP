@@ -11,33 +11,36 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QPixmap
 
 import XmlParser
-
+import math
 config_file = 'Config.xml'
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-
+import matplotlib.ticker as ticker
+import matplotlib.transforms
 
 class RobThreadClass(QtCore.QThread):
 
     date_signal = QtCore.pyqtSignal(str)
     shift_num_signal = QtCore.pyqtSignal(str)
+    graph_signal = QtCore.pyqtSignal(list, list, list, int)
+    hours_signal = QtCore.pyqtSignal(list)
 
     def __init__(self):
 
         super(self.__class__, self).__init__()
-        config = XmlParser.ConfigParse(config_file)
-        self.rob = RobClient.Client(config.ip(), config.port())
+        self.config = XmlParser.ConfigParse(config_file)
+        self.rob = RobClient.Client(self.config.ip(), self.config.port())
 
     def request(self, message):
         answer = self.rob.request(message)
         if self.rob.connected:
 
             if answer.decode('utf-8') == 'N/A':
-                print('Wrong request')
+                print('Answer on request %s: Wrong request' % message)
                 return False
             else:
-                print('Reseved message: ' + answer.decode('utf-8'))
+                print('Answer on request %s: %s ' % (message, answer.decode('utf-8')))
 
             return answer.decode('utf-8')
         else:
@@ -45,6 +48,8 @@ class RobThreadClass(QtCore.QThread):
             return False
 
     def run(self):
+        counter_array = [0 for i in range(9)]
+        plan_array = [0 for i in range(9)]
         while 1:
             current_date = self.request('Date')
             if current_date:
@@ -60,10 +65,34 @@ class RobThreadClass(QtCore.QThread):
                 counter_array = []
                 for counter in hour_counters:
                     counter_array.append(int(counter))
-                print(counter_array)
+
             current_time = self.request('Time')
             if current_time:
                 print(int(current_time[0:2]))
+            plan = int(self.request('Plan'))
+
+            if plan:
+                shift = []
+                interval = []
+                if int(shift_num) == 1:
+                    shift, interval = self.config.shift1()
+                elif int(shift_num) == 2:
+                    shift, interval = self.config.shift2()
+                elif int(shift_num) == 3:
+                    shift, interval = self.config.shift3()
+
+                total_time = 0
+                for available_minute in shift.split('/'):
+                    total_time = total_time + int(available_minute)
+                time_per_peace = total_time / plan
+                plan_array = []
+                for available_minute in shift.split('/'):
+                    plan_array.append(round(int(available_minute)/time_per_peace))
+
+                self.hours_signal.emit(interval.split('/'))
+                self.graph_signal.emit(counter_array, plan_array, interval.split('/'), 5)
+
+
             time.sleep(1)
 
 
@@ -73,10 +102,22 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
         self.time.setText(date)
 
     def showshift(self, shift: str):
-        self.shift.setText('Смена № %s' % shift )
+        self.shift.setText('Смена № %s' % shift)
 
-    def plot(self, graph, bar, cur_hour):
-        self.dc.update_figure(graph, bar, cur_hour)
+    def plot(self, graph, bar, hours, cur_hour):
+        self.dc.update_figure(graph, bar, hours, cur_hour)
+
+    def hours_show(self, hours):
+        self.hours = hours
+        self.time_label.setText(self.hours[0])
+        self.time_label_2.setText(self.hours[1])
+        self.time_label_3.setText(self.hours[2])
+        self.time_label_4.setText(self.hours[3])
+        self.time_label_5.setText(self.hours[4])
+        self.time_label_6.setText(self.hours[5])
+        self.time_label_7.setText(self.hours[6])
+        self.time_label_8.setText(self.hours[7])
+        self.time_label_9.setText(self.hours[8])
 
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -94,16 +135,10 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
                  '11:00-12:00',
                  '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00']
 
+        self.robthread.graph_signal.connect(self.plot)
+        self.robthread.hours_signal.connect(self.hours_show)
         #-time line
-        self.time_label.setText(self.hours[0])
-        self.time_label_2.setText(self.hours[1])
-        self.time_label_3.setText(self.hours[2])
-        self.time_label_4.setText(self.hours[3])
-        self.time_label_5.setText(self.hours[4])
-        self.time_label_6.setText(self.hours[5])
-        self.time_label_7.setText(self.hours[6])
-        self.time_label_8.setText(self.hours[7])
-        self.time_label_9.setText(self.hours[8])
+
 
         config = XmlParser.ConfigParse(config_file)
         logopixmap = QPixmap(config.logopicture())
@@ -166,41 +201,51 @@ class PlanCanvas(MyMplCanvas):
             height = rect.get_height()
             self.plt.text(rect.get_x() + rect.get_width() / 2., 0.5 * height,
                     '%d' % int(height),
-                    ha='center', va='bottom', rotation="vertical", fontsize="large", color="w")
+                    ha='center', va='bottom', rotation="horizontal", fontsize="large", color="w")
 
-    def update_figure(self, fact, plan, cur_hour):
+    def update_figure(self, fact, plan, hours, cur_hour):
         # We want the axes cleared every time plot() is called
         self.plt.cla()
 
-        hours = ['07:20', '08:00', '09:00', '10:00', '11:00',
-                 '12:00', '13:00', '14:00', '15:00', '16:00']
-        l = [0 for i in range(10)]
+        #hours = ['07:20', '08:00', '09:00', '10:00', '11:00',
+         #        '12:00', '13:00', '14:00', '15:00']
+        l = [0 for i in range(9)]
         l[cur_hour] = fact[cur_hour]
         width = 0.95
+        ok = [0 for i in range(9)]
+        nok = [0 for i in range(9)]
+        for i in range(9):
+            if (fact[i] > plan[i]) and (i != cur_hour):
+                ok[i] = fact[i]
+            else:
+                nok[i] = fact[i]
 
-        rect = self.plt.bar(hours, fact, color='b', label='факт', align='edge', width=width, edgecolor='g')
-        self.plt.bar(hours, l, color='r', label='текущий', align='edge', width=width)
+        rect = self.plt.bar(hours, fact, color='b', label='текущий факт', align='edge', width=width, edgecolor='g')
+        self.plt.bar(hours, ok, color='g', label='ok', align='edge', width=width)
+        self.plt.bar(hours, nok, color='r', label='nok', align='edge', width=width)
+        self.plt.bar(hours, l, color='b', align='edge', width=width)
 
         p = []
-        for i in range(10):
+        for i in range(9):
             p.append(plan[i])
 
-        h = [i for i in range(10)]
-        for i in range(10):
+        h = [i for i in range(9)]
+        for i in range(9):
             k = 2 * i
             h.insert(k + 1, i + width)
             p.insert(k, p[k])
 
         self.plt.plot(h, p, color='r', label='план')
         self.plt.grid(which='major', axis='y', linestyle='--')
-        self.plt.tick_params('x', labelrotation=25)
+        self.plt.tick_params('x', labelrotation=0, direction='in', pad=5, labelright='True')
         self.plt.set_title('Мониторинг выполнения цели в день')
         self.plt.set_xlabel('Время')
-        self.plt.set_ylabel('Количество ударов')
+        self.plt.set_ylabel('Количество деталей')
         self.plt.legend()
 
         self.autolabel(rect)
         self.draw()
+
 
 def main():
     # a new app instance
