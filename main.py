@@ -51,6 +51,7 @@ class RobThreadClass(QtCore.QThread):
     def run(self):
         counter_array = [0 for i in range(9)]
         plan_array = [0 for i in range(9)]
+        current_hour = 0
         while 1:
             current_date = self.request('Date')
             if current_date:
@@ -69,8 +70,19 @@ class RobThreadClass(QtCore.QThread):
                 current_hour = int(current_time[0:2])
                 if shift_num == '1':
                     current_hour = current_hour - 7
-                if shift_num == '2':
-                    current_hour = current_hour - 16
+
+                elif shift_num == '2':
+                    if current_hour != 0:
+                        current_hour = current_hour - 16
+                    else:
+                        current_hour = 8
+                elif shift_num == '3':
+                    pass
+                else:
+                    pass
+
+                if (current_hour > 8) or (current_hour < 0):
+                    current_hour = 0
 
                 hour_counters = count.split('/')
                 counter_array = []
