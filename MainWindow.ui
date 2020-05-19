@@ -728,7 +728,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="plan_10">
+           <widget class="QLabel" name="fact">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -746,7 +746,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_11">
+           <widget class="QLabel" name="fact_2">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -764,7 +764,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_12">
+           <widget class="QLabel" name="fact_3">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -782,7 +782,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_13">
+           <widget class="QLabel" name="fact_4">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -800,7 +800,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_14">
+           <widget class="QLabel" name="fact_5">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -818,7 +818,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_15">
+           <widget class="QLabel" name="fact_6">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -836,7 +836,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_16">
+           <widget class="QLabel" name="fact_7">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -854,7 +854,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_17">
+           <widget class="QLabel" name="fact_8">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
@@ -872,7 +872,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="plan_18">
+           <widget class="QLabel" name="fact_9">
             <property name="font">
              <font>
               <pointsize>14</pointsize>
