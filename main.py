@@ -68,9 +68,9 @@ class RobThreadClass(QtCore.QThread):
 
             if plan and count and shift_num and current_time:
                 current_hour = int(current_time[0:2])
+
                 if shift_num == '1':
                     current_hour = current_hour - 7
-
                 elif shift_num == '2':
                     if current_hour != 0:
                         current_hour = current_hour - 16
@@ -151,6 +151,7 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
             fact_label.setStyleSheet("background-color:blue;")
         elif order > cur_hour:
             fact_label.setStyleSheet(" ")
+            fact_label.setText('')
 
     def plot(self, fact, plan, hours, cur_hour):
         self.dc.update_figure(fact, plan, hours, cur_hour)
