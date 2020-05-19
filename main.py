@@ -94,6 +94,8 @@ class RobThreadClass(QtCore.QThread):
                 for available_minute in available_minutes.split('/'):
                     plan_array.append(round(int(available_minute)/time_per_peace))
 
+                round_deviation = sum(plan_array) - plan
+                plan_array[-1] = plan_array[-1] - round_deviation
                 hours = []
                 for interval in intervals.split('/'):
                     hours.append(interval.split('-')[0])
@@ -140,24 +142,15 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
 
     def plot(self, fact, plan, hours, cur_hour):
         self.dc.update_figure(fact, plan, hours, cur_hour)
-        sum_plan = plan[0]
-        self.showlabels(self.fact, self.plan, fact[0], plan[0], sum_plan, cur_hour, 0)
-        sum_plan = sum_plan + plan[1]
-        self.showlabels(self.fact_2, self.plan_2, fact[1], plan[1], sum_plan, cur_hour, 1)
-        sum_plan = sum_plan + plan[2]
-        self.showlabels(self.fact_3, self.plan_3, fact[2], plan[2], sum_plan, cur_hour, 2)
-        sum_plan = sum_plan + plan[3]
-        self.showlabels(self.fact_4, self.plan_4, fact[3], plan[3], sum_plan, cur_hour, 3)
-        sum_plan = sum_plan + plan[4]
-        self.showlabels(self.fact_5, self.plan_5, fact[4], plan[4], sum_plan, cur_hour, 4)
-        sum_plan = sum_plan + plan[5]
-        self.showlabels(self.fact_6, self.plan_6, fact[5], plan[5], sum_plan, cur_hour, 5)
-        sum_plan = sum_plan + plan[6]
-        self.showlabels(self.fact_7, self.plan_7, fact[6], plan[6], sum_plan, cur_hour, 6)
-        sum_plan = sum_plan + plan[7]
-        self.showlabels(self.fact_8, self.plan_8, fact[7], plan[7], sum_plan, cur_hour, 7)
-        sum_plan = sum_plan + plan[8]
-        self.showlabels(self.fact_9, self.plan_9, fact[8], plan[8], sum_plan, cur_hour, 8)
+        self.showlabels(self.fact, self.plan, fact[0], plan[0], plan[0], cur_hour, 0)
+        self.showlabels(self.fact_2, self.plan_2, fact[1], plan[1], sum(plan[0:2]), cur_hour, 1)
+        self.showlabels(self.fact_3, self.plan_3, fact[2], plan[2], sum(plan[0:3]), cur_hour, 2)
+        self.showlabels(self.fact_4, self.plan_4, fact[3], plan[3], sum(plan[0:4]), cur_hour, 3)
+        self.showlabels(self.fact_5, self.plan_5, fact[4], plan[4], sum(plan[0:5]), cur_hour, 4)
+        self.showlabels(self.fact_6, self.plan_6, fact[5], plan[5], sum(plan[0:6]), cur_hour, 5)
+        self.showlabels(self.fact_7, self.plan_7, fact[6], plan[6], sum(plan[0:7]), cur_hour, 6)
+        self.showlabels(self.fact_8, self.plan_8, fact[7], plan[7], sum(plan[0:8]), cur_hour, 7)
+        self.showlabels(self.fact_9, self.plan_9, fact[8], plan[8], sum(plan), cur_hour, 8)
 
     def hours_show(self, hours):
         self.hours = hours
