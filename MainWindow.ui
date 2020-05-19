@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1335</width>
+    <width>1461</width>
     <height>818</height>
    </rect>
   </property>
@@ -85,6 +85,9 @@
             </property>
             <property name="text">
              <string>Project</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -231,11 +234,14 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
+           <pointsize>24</pointsize>
           </font>
          </property>
          <property name="text">
           <string>количество за смену</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -244,6 +250,11 @@
     </item>
     <item>
      <widget class="QWidget" name="horizontalWidget_3" native="true">
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QWidget" name="graph" native="true"/>
@@ -253,7 +264,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>100</height>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -277,7 +288,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -291,11 +302,11 @@
            <widget class="QLabel" name="time_label">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -309,11 +320,11 @@
            <widget class="QLabel" name="time_label_2">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -327,11 +338,11 @@
            <widget class="QLabel" name="time_label_3">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -345,11 +356,11 @@
            <widget class="QLabel" name="time_label_4">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -363,11 +374,11 @@
            <widget class="QLabel" name="time_label_5">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -381,11 +392,11 @@
            <widget class="QLabel" name="time_label_6">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -399,11 +410,11 @@
            <widget class="QLabel" name="time_label_7">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -417,11 +428,11 @@
            <widget class="QLabel" name="time_label_8">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -435,11 +446,11 @@
            <widget class="QLabel" name="time_label_9">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>18</pointsize>
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Panel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
              <string>TextLabel</string>
@@ -455,7 +466,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -473,7 +484,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>100</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -497,7 +508,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -511,14 +522,20 @@
            <widget class="QLabel" name="plan">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -529,14 +546,20 @@
            <widget class="QLabel" name="plan_2">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -547,14 +570,20 @@
            <widget class="QLabel" name="plan_3">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -565,14 +594,20 @@
            <widget class="QLabel" name="plan_4">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -583,14 +618,20 @@
            <widget class="QLabel" name="plan_5">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -601,14 +642,20 @@
            <widget class="QLabel" name="plan_6">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -619,14 +666,20 @@
            <widget class="QLabel" name="plan_7">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -637,14 +690,20 @@
            <widget class="QLabel" name="plan_8">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -655,14 +714,20 @@
            <widget class="QLabel" name="plan_9">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -675,7 +740,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -693,7 +758,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>100</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -717,7 +782,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -731,14 +796,17 @@
            <widget class="QLabel" name="fact">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -749,14 +817,17 @@
            <widget class="QLabel" name="fact_2">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -767,14 +838,17 @@
            <widget class="QLabel" name="fact_3">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -785,14 +859,17 @@
            <widget class="QLabel" name="fact_4">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -803,14 +880,17 @@
            <widget class="QLabel" name="fact_5">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -821,14 +901,17 @@
            <widget class="QLabel" name="fact_6">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -839,14 +922,17 @@
            <widget class="QLabel" name="fact_7">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -857,14 +943,17 @@
            <widget class="QLabel" name="fact_8">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -875,14 +964,17 @@
            <widget class="QLabel" name="fact_9">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>24</pointsize>
              </font>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -895,7 +987,7 @@
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -918,7 +1010,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1335</width>
+     <width>1461</width>
      <height>21</height>
     </rect>
    </property>

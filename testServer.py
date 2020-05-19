@@ -12,9 +12,9 @@ print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
-counter = '0/34/28/10/40/12/0/0/80'
+counter = '0/34/28/10/40/80/0/0/0'
 shift = 1
-plan = 200
+plan = 217
 now = datetime.datetime.now()
 bdt = 3
 
