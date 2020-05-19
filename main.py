@@ -59,38 +59,43 @@ class RobThreadClass(QtCore.QThread):
             if shift_num:
                 self.shift_num_signal.emit(shift_num)
 
+            current_time = self.request('Time')
+            if current_time:
+                print(int(current_time[0:2]))
+
             count = self.request('Count')
-            if count:
+            plan = int(self.request('Plan'))
+
+            if plan and count:
+
                 hour_counters = count.split('/')
                 counter_array = []
                 for counter in hour_counters:
                     counter_array.append(int(counter))
 
-            current_time = self.request('Time')
-            if current_time:
-                print(int(current_time[0:2]))
-            plan = int(self.request('Plan'))
-
-            if plan:
-                shift = []
-                interval = []
+                available_minutes = []
+                intervals = []
                 if int(shift_num) == 1:
-                    shift, interval = self.config.shift1()
+                    available_minutes, intervals = self.config.shift1()
                 elif int(shift_num) == 2:
-                    shift, interval = self.config.shift2()
+                    available_minutes, intervals = self.config.shift2()
                 elif int(shift_num) == 3:
-                    shift, interval = self.config.shift3()
+                    available_minutes, intervals = self.config.shift3()
 
                 total_time = 0
-                for available_minute in shift.split('/'):
+                for available_minute in available_minutes.split('/'):
                     total_time = total_time + int(available_minute)
                 time_per_peace = total_time / plan
                 plan_array = []
-                for available_minute in shift.split('/'):
+                for available_minute in available_minutes.split('/'):
                     plan_array.append(round(int(available_minute)/time_per_peace))
 
-                self.hours_signal.emit(interval.split('/'))
-                self.graph_signal.emit(counter_array, plan_array, interval.split('/'), 5)
+                hours = []
+                for interval in intervals.split('/'):
+                    hours.append(interval.split('-')[0])
+
+                self.hours_signal.emit(intervals.split('/'))
+                self.graph_signal.emit(counter_array, plan_array, hours, 5)
 
 
             time.sleep(1)
@@ -104,8 +109,19 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
     def showshift(self, shift: str):
         self.shift.setText('Смена № %s' % shift)
 
-    def plot(self, graph, bar, hours, cur_hour):
-        self.dc.update_figure(graph, bar, hours, cur_hour)
+    def showplanlabel(self, plan_label: QLabel, plan: int):
+        pass
+
+    def showlabels(self, fact_label: QLabel, plan_label: QLabel, fact: int, plan: int):
+        fact_label.setText(str(fact))
+        plan_label.setText(str(plan))
+        pass
+
+    def plot(self, fact, plan, hours, cur_hour):
+        self.dc.update_figure(fact, plan, hours, cur_hour)
+        #self.showlabels(self.plan_10, self.plan, fact[0], plan[0])
+
+
 
     def hours_show(self, hours):
         self.hours = hours
@@ -199,9 +215,10 @@ class PlanCanvas(MyMplCanvas):
         """
         for rect in rects:
             height = rect.get_height()
-            self.plt.text(rect.get_x() + rect.get_width() / 2., 0.5 * height,
-                    '%d' % int(height),
-                    ha='center', va='bottom', rotation="horizontal", fontsize="large", color="w")
+            if height > 0:
+                self.plt.text(rect.get_x() + rect.get_width() / 2., 0.5 * height,
+                        '%d' % int(height),
+                        ha='center', va='bottom', rotation="horizontal", fontsize="large", color="black")
 
     def update_figure(self, fact, plan, hours, cur_hour):
         # We want the axes cleared every time plot() is called
@@ -212,14 +229,17 @@ class PlanCanvas(MyMplCanvas):
         l = [0 for i in range(9)]
         l[cur_hour] = fact[cur_hour]
         width = 0.95
+
+ 
         ok = [0 for i in range(9)]
         nok = [0 for i in range(9)]
         for i in range(9):
-            if (fact[i] > plan[i]) and (i != cur_hour):
+            if (fact[i] >= plan[i]) and (i != cur_hour):
                 ok[i] = fact[i]
             else:
                 nok[i] = fact[i]
 
+        print(fact)
         rect = self.plt.bar(hours, fact, color='b', label='текущий факт', align='edge', width=width, edgecolor='g')
         self.plt.bar(hours, ok, color='g', label='ok', align='edge', width=width)
         self.plt.bar(hours, nok, color='r', label='nok', align='edge', width=width)

@@ -19,10 +19,10 @@ class ConfigParse:
         return self.tree.find('shift1').get('time'), self.tree.find('shift1').get('interval')
 
     def shift2(self):
-        return self.tree.find('shift1').get('time'), self.tree.find('shift2').get('interval')
+        return self.tree.find('shift2').get('time'), self.tree.find('shift2').get('interval')
 
     def shift3(self):
-        return self.tree.find('shift1').get('time'), self.tree.find('shift3').get('interval')
+        return self.tree.find('shift3').get('time'), self.tree.find('shift3').get('interval')
 
     def logopicture(self):
         ret = self.tree.find('logo').get('file')
