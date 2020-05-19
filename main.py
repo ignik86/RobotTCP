@@ -11,13 +11,12 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QPixmap
 
 import XmlParser
-import math
-config_file = 'Config.xml'
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib.ticker as ticker
-import matplotlib.transforms
+
+config_file = 'Config.xml'
+
 
 class RobThreadClass(QtCore.QThread):
 
@@ -25,6 +24,8 @@ class RobThreadClass(QtCore.QThread):
     shift_num_signal = QtCore.pyqtSignal(str)
     graph_signal = QtCore.pyqtSignal(list, list, list, int)
     hours_signal = QtCore.pyqtSignal(list)
+    plan_signal = QtCore.pyqtSignal(int)
+    bdt_signal = QtCore.pyqtSignal(str)
 
     def __init__(self):
 
@@ -55,18 +56,21 @@ class RobThreadClass(QtCore.QThread):
             if current_date:
                 self.date_signal.emit(current_date)
 
-            shift_num = self.request('Nshift')
-            if shift_num:
-                self.shift_num_signal.emit(shift_num)
-
-            current_time = self.request('Time')
-            if current_time:
-                print(int(current_time[0:2]))
+            bdt = self.request('BDT')
+            if bdt:
+                self.bdt_signal.emit(bdt)
 
             count = self.request('Count')
             plan = int(self.request('Plan'))
+            shift_num = self.request('Nshift')
+            current_time = self.request('Time')
 
-            if plan and count:
+            if plan and count and shift_num and current_time:
+                current_hour = int(current_time[0:2])
+                if shift_num == '1':
+                    current_hour = current_hour - 7
+                if shift_num == '2':
+                    current_hour = current_hour - 16
 
                 hour_counters = count.split('/')
                 counter_array = []
@@ -95,9 +99,9 @@ class RobThreadClass(QtCore.QThread):
                     hours.append(interval.split('-')[0])
 
                 self.hours_signal.emit(intervals.split('/'))
-                self.graph_signal.emit(counter_array, plan_array, hours, 5)
-
-
+                self.graph_signal.emit(counter_array, plan_array, hours, current_hour)
+                self.shift_num_signal.emit(shift_num)
+                self.plan_signal.emit(plan)
             time.sleep(1)
 
 
@@ -109,19 +113,51 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
     def showshift(self, shift: str):
         self.shift.setText('Смена № %s' % shift)
 
-    def showplanlabel(self, plan_label: QLabel, plan: int):
-        pass
+    def show_plan(self, plan: int):
+        self.label_5.setText('Количество за смену: %s' %plan)
 
-    def showlabels(self, fact_label: QLabel, plan_label: QLabel, fact: int, plan: int):
+    def show_bdt(self, bdt: int):
+        self.label_4.setText('BDT: %s сек.' %bdt)
+
+    def showlabels(self,
+                   fact_label: QLabel,
+                   plan_label: QLabel,
+                   fact: int, plan: int,
+                   sum_plan: int,
+                   cur_hour: int,
+                   order: int):
+
+        plan_label.setText('%s / %s' % (str(plan), str(sum_plan)))
         fact_label.setText(str(fact))
-        plan_label.setText(str(plan))
-        pass
+        if fact < plan:
+            fact_label.setStyleSheet("background-color:red;")
+        else:
+            fact_label.setStyleSheet("background-color:green;")
+        if order == cur_hour:
+            fact_label.setStyleSheet("background-color:blue;")
+        elif order > cur_hour:
+            fact_label.setStyleSheet(" ")
 
     def plot(self, fact, plan, hours, cur_hour):
         self.dc.update_figure(fact, plan, hours, cur_hour)
-        #self.showlabels(self.plan_10, self.plan, fact[0], plan[0])
-
-
+        sum_plan = plan[0]
+        self.showlabels(self.fact, self.plan, fact[0], plan[0], sum_plan, cur_hour, 0)
+        sum_plan = sum_plan + plan[1]
+        self.showlabels(self.fact_2, self.plan_2, fact[1], plan[1], sum_plan, cur_hour, 1)
+        sum_plan = sum_plan + plan[2]
+        self.showlabels(self.fact_3, self.plan_3, fact[2], plan[2], sum_plan, cur_hour, 2)
+        sum_plan = sum_plan + plan[3]
+        self.showlabels(self.fact_4, self.plan_4, fact[3], plan[3], sum_plan, cur_hour, 3)
+        sum_plan = sum_plan + plan[4]
+        self.showlabels(self.fact_5, self.plan_5, fact[4], plan[4], sum_plan, cur_hour, 4)
+        sum_plan = sum_plan + plan[5]
+        self.showlabels(self.fact_6, self.plan_6, fact[5], plan[5], sum_plan, cur_hour, 5)
+        sum_plan = sum_plan + plan[6]
+        self.showlabels(self.fact_7, self.plan_7, fact[6], plan[6], sum_plan, cur_hour, 6)
+        sum_plan = sum_plan + plan[7]
+        self.showlabels(self.fact_8, self.plan_8, fact[7], plan[7], sum_plan, cur_hour, 7)
+        sum_plan = sum_plan + plan[8]
+        self.showlabels(self.fact_9, self.plan_9, fact[8], plan[8], sum_plan, cur_hour, 8)
 
     def hours_show(self, hours):
         self.hours = hours
@@ -153,11 +189,11 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
 
         self.robthread.graph_signal.connect(self.plot)
         self.robthread.hours_signal.connect(self.hours_show)
-        #-time line
-
-
+        self.robthread.plan_signal.connect(self.show_plan)
+        self.robthread.bdt_signal.connect(self.show_bdt)
         config = XmlParser.ConfigParse(config_file)
         logopixmap = QPixmap(config.logopicture())
+        self.label_2.setText(config.logotext())
         h = self.logo.height()
         w = self.logo.width()
         self.logo.setPixmap(logopixmap.scaled(w, h, QtCore.Qt.KeepAspectRatio))
@@ -223,14 +259,10 @@ class PlanCanvas(MyMplCanvas):
     def update_figure(self, fact, plan, hours, cur_hour):
         # We want the axes cleared every time plot() is called
         self.plt.cla()
-
-        #hours = ['07:20', '08:00', '09:00', '10:00', '11:00',
-         #        '12:00', '13:00', '14:00', '15:00']
         l = [0 for i in range(9)]
         l[cur_hour] = fact[cur_hour]
         width = 0.95
 
- 
         ok = [0 for i in range(9)]
         nok = [0 for i in range(9)]
         for i in range(9):
@@ -272,7 +304,7 @@ def main():
     app = QApplication(sys.argv)
     form = MainWin()
     form.show()
-    #form.showFullScreen()
+    # form.showFullScreen()
     # form.showMaximized()
     sys.exit(app.exec_())
 

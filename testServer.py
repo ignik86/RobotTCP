@@ -16,6 +16,7 @@ counter = '0/34/28/10/40/12/0/0/80'
 shift = 1
 plan = 200
 now = datetime.datetime.now()
+bdt = 3
 
 while True:
     # Wait for a connection
@@ -43,6 +44,8 @@ while True:
                     send_string = str(shift)
                 elif data == b'Plan':
                     send_string = str(plan)
+                elif data == b'BDT':
+                    send_string = str(bdt)
                 else:
                     send_string = 'N/A'
 
