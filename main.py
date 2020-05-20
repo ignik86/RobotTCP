@@ -147,7 +147,7 @@ class MainWin(QMainWindow, MainWindow.Ui_MainWindow):
             fact_label.setStyleSheet("background-color:red;")
         else:
             fact_label.setStyleSheet("background-color:green;")
-        if order == cur_hour:
+        if order == cur_hour and fact < sum_plan:
             fact_label.setStyleSheet("background-color:blue;")
         elif order > cur_hour:
             fact_label.setStyleSheet(" ")
@@ -245,7 +245,7 @@ class PlanCanvas(MyMplCanvas):
         l = [0 for i in range(10)]
         self.plt.bar(hours, l, color='g')
         self.plt.grid(which='major', axis='y', linestyle='--')
-        self.plt.tick_params('x', labelrotation=25)
+        self.plt.tick_params('x', labelrotation=0)
         self.plt.set_title('Мониторинг выполнения плана в день')
         self.plt.set_xlabel('Время')
         self.plt.set_ylabel('Количество деталей')
@@ -272,7 +272,7 @@ class PlanCanvas(MyMplCanvas):
         ok = [0 for i in range(9)]
         nok = [0 for i in range(9)]
         for i in range(9):
-            if (fact[i] >= plan[i]) and (i != cur_hour):
+            if fact[i] >= plan[i]:
                 ok[i] = fact[i]
             else:
                 nok[i] = fact[i]
@@ -281,7 +281,8 @@ class PlanCanvas(MyMplCanvas):
         rect = self.plt.bar(hours, fact, color='b', label='текущий факт', align='edge', width=width, edgecolor='g')
         self.plt.bar(hours, ok, color='g', label='ok', align='edge', width=width)
         self.plt.bar(hours, nok, color='r', label='nok', align='edge', width=width)
-        self.plt.bar(hours, l, color='b', align='edge', width=width)
+        if fact[cur_hour] < plan[cur_hour]:
+            self.plt.bar(hours, l, color='b', align='edge', width=width)
 
         p = []
         for i in range(9):

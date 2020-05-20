@@ -13,11 +13,10 @@ sock.bind(server_address)
 # Listen for incoming connections
 sock.listen(1)
 counter = '0/34/28/10/40/80/0/0/0'
-shift = 1
+shift = 2
 plan = 217
 now = datetime.datetime.now()
 bdt = 3
-
 while True:
     # Wait for a connection
     print(sys.stderr, 'waiting for a connection')
@@ -38,6 +37,7 @@ while True:
                     send_string = now.strftime("%d-%m-%Y %H:%M:%S")
                 elif data == b'Time':
                     send_string = now.strftime("%H:%M")
+                    send_string = '00:59'
                 elif data == b'Count':
                     send_string = str(counter)
                 elif data == b'Nshift':
